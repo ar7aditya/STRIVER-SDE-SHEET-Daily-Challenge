@@ -92,30 +92,37 @@ int main(void) {
 
 // } Driver Code Ends
 
+Node* mergeTwoLists(Node* a, Node* b) {
+    
+    Node *temp = new Node(0);
+    Node *res = temp; 
+    
+    while(a != NULL && b != NULL) {
+        if(a->data < b->data) {
+            temp->bottom = a; 
+            temp = temp->bottom; 
+            a = a->bottom; 
+        }
+        else {
+            temp->bottom = b;
+            temp = temp->bottom; 
+            b = b->bottom; 
+        }
+    }
+    
+    if(a) temp->bottom = a; 
+    else temp->bottom = b; 
+    
+    return res -> bottom; 
+    
+}
 Node *flatten(Node *root)
 {
-    Node* r1=root;
-  vector<int> v;
-  while(r1){
-       Node* b1=r1;
-           while(b1){
-               v.push_back(b1->data);
-               b1=b1->bottom;
-           }
-           r1=r1->next;
-  }
-  sort(v.begin(),v.end());
-  int n=v.size();
-  int i=0;
-  Node* dummy=new Node(-1);
-  r1=dummy;
-  while(i<n){
-      Node* nd=new Node(v[i]);
-      nd->bottom=NULL;
-      r1->bottom=nd;
-      r1=r1->bottom;
-      i++;
-  }
-  return dummy->bottom;
+   
+        if (root == NULL || root->next == NULL) 
+            return root; 
+        root->next = flatten(root->next); 
+        root = mergeTwoLists(root, root->next); 
+        return root; 
 }
 
