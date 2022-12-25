@@ -6,6 +6,7 @@ public:
         if(t<0) return;
         for(int idx=i;idx<n;idx++){
             if( idx!=i && c[idx]==c[idx-1]) continue;
+            if(c[idx]>t) break;
          temp.push_back(c[idx]);
          f(idx+1,n,t-c[idx],c,temp);
          temp.pop_back();
