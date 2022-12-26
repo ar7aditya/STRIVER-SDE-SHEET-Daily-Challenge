@@ -21,7 +21,6 @@ public:
         }
         for(int k=0;k<n;k++){
             if(vis[i][k]==1) continue;
-            mark(i,k,vis);
             string s="";
             s.insert(0, n-1, '.');
             s.insert(k, "Q");
