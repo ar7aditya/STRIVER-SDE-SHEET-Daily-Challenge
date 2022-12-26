@@ -1,25 +1,10 @@
 class Solution {
 public:
-    bool check(int row,int col,int number,vector<vector<char>>& board){
+    bool check(int row,int col,char number,vector<vector<char>>& board){
         for(int i=0; i<board.size(); i++) {
-           if(board[i][col] == (char)(number+'0')) {
-               return false;
-           }
-       }
-       for(int j=0; j<board.size(); j++) {
-           if(board[row][j] == (char)(number+'0')) {
-               return false;
-           }
-       }
-       int sr = 3 * (row/3);
-       int sc = 3 * (col/3);
-      
-       for(int i=sr; i<sr+3; i++) {
-           for(int j=sc; j<sc+3; j++) {
-               if(board[i][j] == (char)(number+'0')) {
-                   return false;
-               }
-           }
+           if(board[i][col] == number)  return false;
+            if(board[row][i] == number) return false;
+            if(board[3*(row/3)+i/3][3*(col/3)+i%3]==number)  return false;
        }
         return true;
     }
@@ -45,9 +30,9 @@ public:
                return true;
            }
        } else {
-           for(int i=1; i<=9; i++) {
+           for(char i='1'; i<='9'; i++) {
                if(check(row, col, i,board)) {
-                   board[row][col] = (char)(i+'0');
+                   board[row][col] =i;
                    if(f(nrow, ncol,board))
                        return true;
                    else
