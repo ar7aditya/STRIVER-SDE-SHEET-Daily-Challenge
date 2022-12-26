@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<vector<int>> mark(int row,int col,vector<vector<int>> vis){
         int n=vis.size();
-        for(int j=0;j<n;j++) vis[row][j]=1;
         for(int j=0;j<n;j++) vis[j][col]=1;
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
