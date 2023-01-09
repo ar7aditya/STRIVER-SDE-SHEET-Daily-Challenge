@@ -1,30 +1,27 @@
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        if(root==NULL) return ans;
-        TreeNode* cur=root,*p=root;
-        while(cur!=NULL){
-            p=cur;
-            if(cur->left!=NULL){
-                p=cur->left;
-                while(p->right!=NULL && p->right!=cur) p=p->right;
-                if(p->right==cur) {
-                    p->right=NULL;
-                    cur=cur->right;
+      vector<int> ans;
+     TreeNode* t=root;
+        while(root!=NULL){
+            if(root->left!=NULL){
+                t=root->left;
+                while(t->right!=NULL && t->right!=root) t=t->right;
+                if(t->right==root){
+                    t->right=NULL;
+                    root=root->right;
                 }
                 else {
-                    p->right=cur;
-                    ans.push_back(cur->val);
-                    cur=cur->left;
-                }
+                    t->right=root;
+                     ans.push_back(root->val);
+                    root=root->left;
+                     }
             }
             else{
-               ans.push_back(cur->val);
-               cur=cur->right; 
+                ans.push_back(root->val);
+                 root=root->right;
             }
         }
-       
         return ans;
     }
 };
