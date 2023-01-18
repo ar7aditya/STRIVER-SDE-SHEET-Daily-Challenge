@@ -1,12 +1,14 @@
 class Solution {
 public:
-    priority_queue<int> mh;
+    void inorder(TreeNode* r,vector<int>& v,int k){
+        if(r==NULL || v.size()==k) return;
+        inorder(r->left,v,k);
+        v.push_back(r->val);
+        inorder(r->right,v,k);
+    }
     int kthSmallest(TreeNode* root, int k) {
-        if(root==NULL) return 0;
-        if(root->left) kthSmallest(root->left,k);
-        mh.push(root->val);
-        if(mh.size()>k) mh.pop();
-        if(root->right) kthSmallest(root->right,k);
-        return mh.top();
+        vector<int> v;
+        inorder(root,v,k);
+        return v[k-1];
     }
 };
