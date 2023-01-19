@@ -47,9 +47,7 @@ public:
             return base;
         }
         base.isBst = false;
-        base.maxim = max(root->val , max(leftNode.maxim , rightNode.maxim));
-        base.minim = min(root->val , min(leftNode.minim , rightNode.minim));
-        base.sum= root->val + leftNode.sum + rightNode.sum;
+       
         return base;
         
     }
