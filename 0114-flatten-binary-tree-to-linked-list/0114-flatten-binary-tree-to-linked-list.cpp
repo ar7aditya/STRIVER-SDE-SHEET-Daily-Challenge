@@ -1,17 +1,17 @@
 class Solution {
 public:
-
     void flatten(TreeNode* root) {
-       TreeNode* cur=root,*p=NULL;
-        while(cur){
-            if(cur->left){
-                p=cur->left;
-                while(p->right) p=p->right;
-                p->right=cur->right;
-                cur->right=cur->left;
-                cur->left=NULL;
+        if(root==NULL) return;
+        TreeNode* t=root;
+        while(root){
+            if(root->left) {
+                t=root->left;
+                while(t->right) t=t->right;
+                t->right=root->right;
+                root->right=root->left;
+                root->left=NULL;
             }
-                cur=cur->right;
+            root=root->right;
         }
         return;
     }
