@@ -11,20 +11,18 @@ public:
             indegree[a]++;     
         }
         queue<int> q;
+        int k=0;
         for(int i=0;i<n;i++){
-            if(indegree[i]==0) q.push(i);
+            if(indegree[i]==0) {q.push(i);k++;}
         }
         while(!q.empty()){
             int node=q.front();
             q.pop();
             for(int i:adj[node]){
                 indegree[i]--;
-                if(indegree[i]==0) q.push(i);
+                if(indegree[i]==0) {q.push(i);k++;}
             }
         }
-        for(int i=0;i<n;i++){
-            if(indegree[i]!=0) return false;
-        }
-        return true;
+        return k==n;
     }
 };
