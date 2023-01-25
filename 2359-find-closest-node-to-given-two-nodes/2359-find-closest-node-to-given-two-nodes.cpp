@@ -1,41 +1,29 @@
 class Solution {
 public:
+    void dfs(int node, vector<int>& edges, vector<int>& distance, vector<bool>& visited){
+        visited[node] = true;
+        int neighbor = edges[node];
+        if (neighbor != -1 && visited[neighbor] == false) {
+            distance[neighbor] = distance[node] + 1;
+            dfs(neighbor, edges, distance, visited);
+        }
+    }
+    
     int closestMeetingNode(vector<int>& edges, int node1, int node2) {
-        if(node1==node2) return node1;
         int n=edges.size();
-        vector<vector<int>> adj(n);
-        vector<int> dis1(n,1e6);
-        vector<int> dis2(n,1e6);
-        int k=0;
-        int i=0;
-        int ind=node1;
-        while(i<n){
-            if(dis1[ind]!=1e6) break;
-           dis1[ind]=k++;
-           ind=edges[ind];
-            if(ind==-1) break;
-            i++;
-        }
-        i=0;
-        k=0;
-        ind=node2;
-        while(i<n){
-           if(dis2[ind]!=1e6) break;
-           dis2[ind]=k++;
-           ind=edges[ind];
-            if(ind==-1) break;
-            i++;
-        }
-        
-        int ans=1e6;
-        int index=-1;
+        vector<int> dist1(n,1e6);
+        vector<int> dist2(n,1e6);
+         vector<bool> visited1(n, false), visited2(n, false);
+        dfs(node1,edges,dist1,visited1);
+        dfs(node2,edges,dist2,visited2);
+         int ans = -1;
+        int minDist = INT_MAX;
         for(int i=0;i<n;i++){
-            int s=max(dis1[i],dis2[i]);
-            if(s<ans){
-                ans=min(ans,s);
-                index=i;
+           if(visited1[i] == true && visited2[i] == true && minDist >                                       max(dist1[i], dist2[i])){
+                minDist = max(dist1[i], dist2[i]);
+                ans = i;
             }
         }
-        return index;
+        return ans;
     }
 };
