@@ -1,43 +1,20 @@
 class Solution {
 public:
-    int jump(vector<int>& nums) {
-        
-        const int size = nums.size();
-        
-        // destination is last index
-        int destination = size-1;
-        
-        int curCoverage = 0, lastJumpIdx = 0;
-        
-        // counter of jump
-        int timesOfJump = 0;
-        
-        // Quick response if start index == destination index == 0
-        if( size == 1 ){
+    long long f(int i,int n,vector<int>& nums,vector<int>& dp){
+        if(i>=n){
             return 0;
         }
-            
-        
-        // Greedy stragegy: extend coverage as long as possible with lazp jump
-        for( int i = 0 ; i < size ; i++){
-            
-            // extend coverage
-            curCoverage = max(curCoverage, i + nums[i] );
-            
-            // forced to jump (by lazy jump) to extend coverage
-            if( i == lastJumpIdx ){
-                
-                lastJumpIdx = curCoverage;
-                
-                timesOfJump++;
-                
-                // check if we reached destination already
-                if( curCoverage >= destination){
-                    return timesOfJump;
-                }
-            }
+        if(dp[i]!=-1) return dp[i];
+        long long ans=INT_MAX;
+        for(int k=1; k<=nums[i];k++){
+            ans = min(ans,1 + f(i+k,n,nums,dp));
         }
-        
-        return timesOfJump;
+       return dp[i] = ans ;
+    }
+    int jump(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1) return 0;
+        vector<int> dp(n,-1);
+         return f(0,nums.size()-1,nums,dp);
     }
 };
