@@ -1,20 +1,21 @@
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        if(head==NULL || head->next==NULL) return NULL;
-       ListNode* slow=head,*fast=head;
-       while(fast!=NULL && fast->next!=NULL){
-           slow=slow->next;
-           fast=fast->next->next;
-           if(fast==slow) break;
-       }
-        if(fast==NULL || fast->next==NULL) return NULL;
-        fast=head;
-        cout<<endl;
-        while(fast!=slow){
-            slow=slow->next;
-            fast=fast->next;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        if(head==NULL || fast->next==NULL || fast->next->next==NULL) return NULL;
+        slow = slow->next;
+        fast = fast->next->next;
+        while( slow!=fast && fast->next && fast->next->next){
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        return slow;
+        if(slow!=fast) return NULL;
+        slow = head;
+        while(slow!=fast){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return fast;
     }
 };
