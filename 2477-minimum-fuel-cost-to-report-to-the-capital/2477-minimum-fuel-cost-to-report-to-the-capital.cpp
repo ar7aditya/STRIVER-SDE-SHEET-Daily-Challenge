@@ -1,21 +1,34 @@
 class Solution {
 public:
-    long long ans = 0; int s;
-long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
-    vector<vector<int>> graph(roads.size() + 1); s = seats;
-    for (vector<int>& r: roads) {
-        graph[r[0]].push_back(r[1]);
-        graph[r[1]].push_back(r[0]);
+    long long ans = 0;
+    int dfs(int i , vector<vector<int>>& adj , int seats , vector<int>& vis){
+        vis[i] = 1;
+        long long count = 0;
+        for(auto node : adj[i]){
+            if(!vis[node]){
+                count += dfs(node,adj,seats,vis);
+            }
+        }
+        count += (long long)1;
+        long long x = ((count+seats-(long long)1)/seats);
+        if(i!=0) ans += x;
+        return count;
     }
-    dfs(0, 0, graph);
-    return ans;
-}
-int dfs(int i, int prev, vector<vector<int>>& graph, int people = 1) {
-    for (int& x: graph[i]) {
-        if (x == prev) continue;
-        people += dfs(x, i, graph);
+    
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        ans = 0;
+        int n = roads.size();
+        if(n==0) return 0;
+        
+        vector<vector<int>> adj(n+1);
+        for(int i=0;i<n;i++){
+            int x = roads[i][0];
+            int y = roads[i][1];
+            adj[x].push_back(y);
+            adj[y].push_back(x);
+        }
+        vector<int> vis(n+1,0);
+        dfs(0,adj,seats,vis);
+        return ans;
     }
-    if (i != 0) ans += (people + s - 1) / s;
-    return people;
-}
 };
