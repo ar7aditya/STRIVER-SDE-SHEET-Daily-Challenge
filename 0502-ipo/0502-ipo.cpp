@@ -1,25 +1,22 @@
-// this code is copied
 class Solution {
 public:
-    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
-        int n = profits.size();
-        vector<pair<int, int>> projects(n);
-        for (int i = 0; i < n; i++) {
-            projects[i] = {capital[i], profits[i]};
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital)     {
+       vector<pair<int,int>> min_cap;
+        int n = capital.size();
+        for(int i=0;i<n;i++){
+            min_cap.push_back({capital[i],profits[i]});
         }
-        sort(projects.begin(), projects.end());
-        int i = 0;
-        priority_queue<int> maximizeCapital;
-        while (k--) {
-            
-            while (i < n && projects[i].first <= w) {
-                maximizeCapital.push(projects[i].second);
+        sort(min_cap.begin(),min_cap.end());
+        priority_queue<int> pq;
+        int i = 0; // pointer
+        while(k--){
+            while(i<n && w>=min_cap[i].first){
+                pq.push(min_cap[i].second);
                 i++;
             }
-            if (maximizeCapital.empty())
-                break;
-            w += maximizeCapital.top();
-            maximizeCapital.pop();
+            if(pq.empty()) return w;
+            w += pq.top();
+            pq.pop();
         }
         return w;
     }
