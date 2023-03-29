@@ -25,7 +25,7 @@ public:
 //         return temp;
         stack<char> stack;
         for(char& ch : s){
-            if(ch == '*' && !stack.empty()){
+            if(ch == '*' ){
                 stack.pop();
             }else{
                 stack.push(ch);
