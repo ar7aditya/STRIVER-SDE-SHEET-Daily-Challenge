@@ -1,18 +1,19 @@
 class Solution {
 public:
     bool isValid(string s) {
-        if(s.size()%2!=0) return false;
-        unordered_map<char,int> mp={{'(',1},{'{',2},{'[',3},{')',-1},{'}',-2},{']',-3}};
-        if(mp[s[0]]<0) return false;
-        stack<int> st;
+        stack<char> st;
+        unordered_map<char,char> mp;
+        mp['[']=']';
+        mp['{']='}';
+        mp['(']=')';
         for(int i=0;i<s.size();i++){
-            if(mp[s[i]]>0)  st.push(mp[s[i]]);
+            if(s[i]=='(' || s[i]=='[' || s[i]=='{'){
+                st.push(s[i]);
+            }
             else{
                 if(st.empty()) return false;
-                int x=st.top();
-                int y=mp[s[i]];
-                if(x+y!=0) return false;
-                st.pop();
+                if(s[i]==mp[st.top()]) st.pop();
+                else return false;
             }
         }
         if(!st.empty()) return false;
