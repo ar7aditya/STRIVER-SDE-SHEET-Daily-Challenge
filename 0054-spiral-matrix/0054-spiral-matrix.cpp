@@ -9,7 +9,7 @@ public:
         int min_col = 0;
         vector<int> ans;
         int k = max_row * max_col;
-        while(min_row!=max_row || min_col!=max_col){
+        while(min_row<=max_row && min_col<=max_col){
             if(k==0) return ans;
             if(min_col==max_col && min_row==max_row && min_row==min_col) return ans;
             while(col<max_col){
@@ -22,7 +22,6 @@ public:
             k++;
             col--;
             max_col--;
-            // if(min_col==max_col && min_row==max_row && min_row==min_col) return ans;
             while(row<max_row){
                ans.push_back(matrix[row][col]);
                 k--;
@@ -33,7 +32,6 @@ public:
             k++;
             row--;
             max_row--;
-            // if(min_col==max_col && min_row==max_row && min_row==min_col) return ans;
             while(col>=min_col){
                 ans.push_back(matrix[row][col]);
                 k--;
@@ -44,7 +42,6 @@ public:
             k++;
             col++;
             min_col++;
-            // if(min_col==max_col && min_row==max_row && min_row==min_col) return ans;
             while(row>=min_row){
                ans.push_back(matrix[row][col]);
                 k--;
@@ -55,7 +52,6 @@ public:
             k++;
             row++;
             min_row++;
-            // if(min_col==max_col && min_row==max_row && min_row==min_col) return ans;
         }
         return ans;
     }
