@@ -1,12 +1,12 @@
 class MyHashSet {
 public:
-    unordered_map<int,int> mp;
+    unordered_set<int> mp;
     MyHashSet() {
         
     }
     
     void add(int key) {
-        mp[key] = 1;
+        mp.insert(key);
     }
     
     void remove(int key) {
@@ -14,7 +14,7 @@ public:
     }
     
     bool contains(int key) {
-        if(mp[key] == 1) return true;
+        if(mp.find(key) != mp.end()) return true;
         return false;
     }
 };
