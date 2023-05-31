@@ -1,28 +1,31 @@
 class Solution {
 public:
-    int ans = 0;
-    int f(int i,int n,vector<int>& p,int M,vector<int>& suffix,vector<vector<int>>& dp){
-        if(i==n) return 0;
-        if(n - i <= 2*M){
-            return suffix[i];
-        }
-        if(dp[i][M]!=-1) return dp[i][M];
-         int tans = 0;
-            for(int x=1;x<=2*M;x++){
-               tans = max(tans , suffix[i] - f(i+x,n,p,max(x,M),suffix,dp));
+    long long int dp[101][101][2]; //idx, M, turn
+    int rec(vector<int>&piles, int i, int M, int turn){
+        if(i == piles.size())
+            return 0;
+        if(dp[i][M][turn] != -1)
+            return dp[i][M][turn];
+        if (turn == 0){
+            int ret = 0;
+            int currScore = 0;
+            for(int x = 1; x <= 2*M; x++){
+                if (i + x - 1 == piles.size()) break;
+                currScore += piles[i + x - 1];
+                ret = max(ret, currScore + rec(piles, i + x, max(M, x), 1));
             }
-        return dp[i][M] = tans;
-    }
-    
-    int stoneGameII(vector<int>& piles) {
-        int n = piles.size();
-        vector<int> suffix(n);
-        suffix[n-1] = piles[n-1];
-        for(int i= n-2;i>=0;i--){
-            suffix[i] = suffix[i+1] + piles[i];
+            return dp[i][M][turn] = ret;
+        } else {
+            int ret = INT_MAX;
+            for(int x = 1; x <= 2*M; x++){
+                if (i + x - 1 == piles.size()) break;
+                ret = min(ret, rec(piles, i + x, max(M, x), 0));
+            }
+            return dp[i][M][turn] = ret;
         }
-        vector<vector<int>> dp(n,vector<int> (n,-1));
-        return f(0,n,piles,1,suffix,dp);
-        
+    }
+    int stoneGameII(vector<int>& piles) {
+        memset(dp, -1, sizeof dp);
+        return rec(piles, 0, 1, 0);
     }
 };
