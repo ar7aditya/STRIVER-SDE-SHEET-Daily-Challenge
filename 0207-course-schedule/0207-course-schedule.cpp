@@ -1,36 +1,36 @@
 class Solution {
 public:
+    bool dfs(int node ,vector<int>& vis,vector<int>& dfsvis,vector<vector<int>>& adj){
+        vis[node] = 1;
+        dfsvis[node] = 1;
+        for(int i : adj[node]){
+            if(dfsvis[i] != 0) return true;
+            else{
+                 if(vis[i] == 0){
+                     if(dfs(i,vis,dfsvis,adj)) return true;
+                 }
+            }
+        }
+        dfsvis[node] = 0;
+        return false;
+    }
+    
     bool canFinish(int n, vector<vector<int>>& p) {
         vector<vector<int>> adj(n);
-        vector<int> indegree(n);
         for(int i=0;i<p.size();i++){
             int u = p[i][1];
             int v = p[i][0];
             adj[u].push_back(v);
-            indegree[v]++;
         }
-        vector<int> vis(n);
-        queue<int> q;
+        vector<int> vis(n,0);
+        vector<int> dfsvis(n,0);
         
-        int k = 0;
         for(int i=0;i<n;i++){
-            if(indegree[i] == 0){
-                q.push(i);
-                k++;
+            if(!vis[i]){
+                if(dfs(i,vis,dfsvis,adj)) return false;
             }
         }
-        while(!q.empty()){
-            int cur = q.front();
-            q.pop();
-            for(int node : adj[cur]){
-                indegree[node]--;
-                if(indegree[node] == 0 && vis[node] == 0)  {
-                    q.push(node);
-                    k++;
-                    vis[node] = 1;
-                }
-            }
-        }
-        return k == n;
+        
+        return true;
     }
 };
