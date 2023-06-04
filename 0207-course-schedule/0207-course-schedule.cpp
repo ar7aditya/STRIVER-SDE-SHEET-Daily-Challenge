@@ -1,33 +1,36 @@
 class Solution {
 public:
-   bool iscycle(vector<int> adj[],vector<int> &vis,int id,vector<int>& dfs_vis){
-       vis[id]=1;
-       dfs_vis[id]=1;
-       for(int i:adj[id]){
-           if(dfs_vis[i]!=0) return true;
-           else {
-               if(vis[i]==0){
-                if(iscycle(adj,vis,i,dfs_vis)) return true;
-           }
-           }
-       }
-       dfs_vis[id]=0;
-       return false;
-    }
-    bool canFinish(int n, vector<vector<int>>& pre) {
-        vector<int> adj[n];
-        for(auto edge : pre)
-            adj[edge[1]].push_back(edge[0]);
-        vector<int> per_vis(n,0);
-         vector<int> dfs_vis(n,0);
+    bool canFinish(int n, vector<vector<int>>& p) {
+        vector<vector<int>> adj(n);
+        vector<int> indegree(n);
+        for(int i=0;i<p.size();i++){
+            int u = p[i][1];
+            int v = p[i][0];
+            adj[u].push_back(v);
+            indegree[v]++;
+        }
+        vector<int> vis(n);
+        queue<int> q;
         
+        int k = 0;
         for(int i=0;i<n;i++){
-            if(per_vis[i]==0){
-            if(iscycle(adj,per_vis,i,dfs_vis))
-                return false;
+            if(indegree[i] == 0){
+                q.push(i);
+                k++;
             }
         }
-        return true;
+        while(!q.empty()){
+            int cur = q.front();
+            q.pop();
+            for(int node : adj[cur]){
+                indegree[node]--;
+                if(indegree[node] == 0 && vis[node] == 0)  {
+                    q.push(node);
+                    k++;
+                    vis[node] = 1;
+                }
+            }
+        }
+        return k == n;
     }
-
 };
