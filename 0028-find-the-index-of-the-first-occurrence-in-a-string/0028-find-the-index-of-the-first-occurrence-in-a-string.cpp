@@ -1,26 +1,31 @@
 class Solution {
 public:
-    vector<int> kmpProcess(string needle) {
-        int n = needle.size();
-        vector<int> lps(n, 0);
-        for (int i = 1, len = 0; i < n;) {
-            if (needle[i] == needle[len]) {
+    void fill_lps(vector<int>& lps,string p){
+        int n = p.size();
+        int len = 0;
+        int i = 1;
+        while( i < n){
+            if(p[i] == p[len]){
                 lps[i++] = ++len;
-            } else if (len) {
-                len = lps[len - 1];
-            } else {
+            }
+            else if(len){
+                len = lps[len-1];
+            }
+            else{
                 lps[i++] = 0;
             }
         }
-        return lps;
     }
     
     int strStr(string s, string p) {
         if(p.size() == 0) return 0;
-        vector<int> lps = kmpProcess(p);
+        
+        vector<int> lps(p.size(),0);
+        fill_lps(lps,p);
+        
         int j = 0;
         int i = 0;
-        while(i < s.size()){
+        while(i < s.size()  && j < p.size()){
             if(s[i] == p[j]){
                 i++;
                 j++;
