@@ -1,16 +1,30 @@
 class Solution {
 public:
-    string countAndSay(int n,string s="1") {
-        if(n==1) return s;
-        int len=s.size();
-        int i=0;
-        string ans = "";
-        while(i<len){
-            int j=i;
-            while(i<len && s[i]==s[j]) i++;
-            ans+=to_string(i-j)+s[j];    
+    string f(int n,string& s){
+       if(n == 1) return s;
+        string temp = "";
+        int count_unique = 1;
+        int j = 1;
+        for(j=1;j<s.size();j++){
+            if(s[j] != s[j-1]){
+                temp += to_string(count_unique);
+                temp.push_back(s[j-1]);
+                count_unique = 1;
+            }
+            else{
+                count_unique++;
+            }
         }
-        return countAndSay(n-1,ans);
+         if(j == s.size()){
+                temp += to_string(count_unique);
+                temp.push_back(s[j-1]);
+            }
+        // cout<<temp<<endl;
+        return f(n-1,temp);;
+    }
+    
+    string countAndSay(int n) {
+        string j = "1";
+        return f(n,j);
     }
 };
-
