@@ -1,17 +1,20 @@
 class Solution {
 public:
-    int f(int i,int walls,vector<int>& cost,vector<int>& time, vector<vector<int>>& dp){
-        if(walls <= 0) return 0;
-        if(i < 0 ) return 1e9;
-        if(dp[i][walls] != -1) return dp[i][walls];
-        int pick = cost[i] + f(i-1,walls - time[i] - 1,cost,time,dp); 
-        int not_pick = 0 + f(i-1,walls,cost,time,dp);
-        return dp[i][walls] = min(pick ,not_pick );
-    }
     
     int paintWalls(vector<int>& cost, vector<int>& time) {
         int n = cost.size();
-        vector<vector<int>> dp(n+1,vector<int> (n+1,-1));
-        return f(n-1,n,cost,time,dp);  
+        vector<vector<int>> dp(n+1,vector<int> (n+1,1e9));
+        for(int i=0;i<=n;i++) dp[i][0] = 0;
+        
+        for(int i=1;i<=n;i++){
+            for(int walls = 1;walls <=n ;walls++){
+                int not_pick = dp[i-1][walls];
+                int pick = cost[i-1] + dp[i-1][max(walls - 1 - time[i-1], 0)];
+                dp[i][walls] = min(pick ,not_pick );
+            }
+        }
+        return dp[n][n];
     }
 };
+
+
