@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[10][2][2][2][1<<10];
+    int dp[10][2][2][1<<10];
     vector<int>num;
     int solve(int pos,int tight,int start,int rep,int mask)
     {
@@ -8,8 +8,8 @@ public:
         {
             return rep;
         }
-        int &ans= dp[pos][tight][start][rep][mask];
-        if(ans!=-1)return ans;
+        int &ans = dp[pos][tight][rep][mask];
+        if(ans != -1) return ans;
 
         int k = num[pos];
         if(tight)k=9;
@@ -29,6 +29,7 @@ public:
         ans= res;
         return res;
     }
+    
     int numDupDigitsAtMostN(int N) {
         while(N){
             num.push_back(N%10);
