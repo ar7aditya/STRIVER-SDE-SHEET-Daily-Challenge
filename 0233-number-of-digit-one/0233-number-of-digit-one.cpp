@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[10][2][1<<10];
+    int dp[10][2][10];
     vector<int> num;
     int solve(int pos,int tight,int rep,long long count)
     {
