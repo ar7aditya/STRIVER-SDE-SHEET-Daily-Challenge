@@ -5,12 +5,12 @@ public:
         long long ans = 0;
         long long sum = 0;
         int odd_count = 0;
-        int even_count = 1;
+        int even_count = 0;
         int n = arr.size();
         for(int i = 0; i < n; i++){
             sum += arr[i];
             if(sum % 2 != 0){
-                ans = (ans + even_count) % mod;
+                ans = (ans + 1 + even_count) % mod;
                 odd_count++;
             }
             else{
